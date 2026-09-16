@@ -147,23 +147,6 @@ export default function LeadsPage({
       });
   }, [leads, searchTerm, statusFilter, typeFilter, sortBy]);
 
-  // Bulk selection toggles
-  const handleToggleSelectAll = () => {
-    if (selectedIds.length === filteredLeads.length) {
-      setSelectedIds([]);
-    } else {
-      setSelectedIds(filteredLeads.map((l) => l.id || l._id));
-    }
-  };
-
-  const handleToggleSelectOne = (id) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((item) => item !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
-    }
-  };
-
   // Bulk status update
   const handleBulkStatusChange = (status) => {
     if (!selectedIds.length) return;
@@ -562,14 +545,6 @@ export default function LeadsPage({
             <table className="leads-data-table">
               <thead>
                 <tr>
-                  <th style={{ width: '40px' }}>
-                    <input
-                      type="checkbox"
-                      className="table-checkbox"
-                      checked={selectedIds.length === filteredLeads.length && filteredLeads.length > 0}
-                      onChange={handleToggleSelectAll}
-                    />
-                  </th>
                   <th>Business & Contact</th>
                   <th>Category</th>
                   <th>Location</th>
@@ -582,7 +557,7 @@ export default function LeadsPage({
               <tbody>
                 {filteredLeads.length === 0 ? (
                   <tr>
-                    <td colSpan="8" style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--text-muted)' }}>
+                    <td colSpan="7" style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--text-muted)' }}>
                       <Users size={36} style={{ opacity: 0.3, marginBottom: '8px' }} />
                       <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--text-primary)' }}>
                         No leads found matching your criteria
@@ -595,24 +570,12 @@ export default function LeadsPage({
                 ) : (
                   filteredLeads.map((lead) => {
                     const leadId = lead.id || lead._id;
-                    const isSelected = selectedIds.includes(leadId);
 
                     return (
                       <tr
                         key={leadId}
-                        className={isSelected ? 'selected' : ''}
                         onClick={() => handleOpenDrawer(lead)}
                       >
-                        {/* Checkbox */}
-                        <td onClick={(e) => e.stopPropagation()}>
-                          <input
-                            type="checkbox"
-                            className="table-checkbox"
-                            checked={isSelected}
-                            onChange={() => handleToggleSelectOne(leadId)}
-                          />
-                        </td>
-
                         {/* Business & Contact Person */}
                         <td>
                           <div className="lead-biz-cell">

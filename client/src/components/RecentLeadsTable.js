@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   MapPin,
   Mail,
@@ -18,24 +18,6 @@ export default function RecentLeadsTable({
   onUpdateStatus,
   onDeleteLead,
 }) {
-  const [selectedIds, setSelectedIds] = useState([]);
-
-  const toggleSelectAll = () => {
-    if (selectedIds.length === leads.length) {
-      setSelectedIds([]);
-    } else {
-      setSelectedIds(leads.map((l) => l.id));
-    }
-  };
-
-  const toggleSelectOne = (id) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((item) => item !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
-    }
-  };
-
   const getTypeBadgeStyle = (type) => {
     switch (type) {
       case 'Dental Clinic':
@@ -151,14 +133,6 @@ export default function RecentLeadsTable({
         <table className="leads-table">
           <thead>
             <tr>
-              <th style={{ width: '36px' }}>
-                <input
-                  type="checkbox"
-                  className="table-checkbox"
-                  checked={selectedIds.length === leads.length && leads.length > 0}
-                  onChange={toggleSelectAll}
-                />
-              </th>
               <th>Business Name</th>
               <th>Type</th>
               <th>Location</th>
@@ -169,17 +143,8 @@ export default function RecentLeadsTable({
           </thead>
           <tbody>
             {leads.map((lead) => {
-              const isChecked = selectedIds.includes(lead.id);
               return (
                 <tr key={lead.id}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      className="table-checkbox"
-                      checked={isChecked}
-                      onChange={() => toggleSelectOne(lead.id)}
-                    />
-                  </td>
                   <td>
                     <div className="business-col">
                       {renderAvatarIcon(lead)}
