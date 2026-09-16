@@ -1,4 +1,14 @@
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const getApiBase = () => {
+  const envUrl = process.env.REACT_APP_API_URL;
+  let base = (envUrl && envUrl.trim()) ? envUrl.trim() : 'https://leadflow-sdw0.onrender.com/api';
+  base = base.replace(/\/+$/, '');
+  if (!base.endsWith('/api')) {
+    base = `${base}/api`;
+  }
+  return base;
+};
+
+const API_BASE = getApiBase();
 
 async function request(endpoint, options = {}) {
   try {
